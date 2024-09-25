@@ -50,7 +50,7 @@ public class BandNameGenerator {
 	 * Return a string that capitalizes the first letter of s and lowercases the rest. So for example,
 	 * capitalizeFirst('cat') returns 'Cat', and capitalizeFirst('CHUBBY CAt') returns 'Chubby cat'. Read the assignment carefully and think about how
 	 * to implement this part of the code.
-	 *
+	 * Want to slice the string into different words, then capitalize first letter of each of those words
 	 * @param s
 	 * @return
 	 */
@@ -66,10 +66,19 @@ public class BandNameGenerator {
 	 * @return the generated name or "UNINITIALIZED"
 	 */
 	public String generateName() {
-		int randIndexAdj1 = (int) (Math.random() * 1348);
-		int randIndexAdj2 = (int) (Math.random() * 1348);
-		int randIndexNoun = (int) (Math.random() * 1525);
-		return "";
+		// Make sure we have adjectives and nouns to read
+		if (!adjectivesLoaded || !nounsLoaded) {
+			return "UNINITIALIZED";
+		}
+		int randIndexAdj1 = (int) (Math.random() * adjectives.length);
+		int randIndexAdj2 = (int) (Math.random() * adjectives.length);
+		int randIndexNoun = (int) (Math.random() * nouns.length);
+
+		String adj1 = capitalizeFirst(adjectives[randIndexAdj1]);
+		String adj2 = capitalizeFirst(adjectives[randIndexAdj2]);
+		String noun = capitalizeFirst(nouns[randIndexNoun]);
+
+		return adj1 + " " + adj2 + " " + noun;
 	}
 
 
@@ -134,10 +143,13 @@ public class BandNameGenerator {
 
 	public static void main(String[] args) {
 		// create a BandNameGenerator and initialize it
+		BandNameGenerator gen = new BandNameGenerator("adjectives.txt", "nouns.txt");
+		gen.loadAdjectives();
+		gen.loadNouns();
 
 		// generate and print 20 names for your band
-
-
+		for (int i = 0; i < 20; i++) {
+			System.out.println(gen.generateName());
+		}
 	}
-
 }

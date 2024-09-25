@@ -70,9 +70,10 @@ public class BandNameGenerator {
 		if (!adjectivesLoaded || !nounsLoaded) {
 			return "UNINITIALIZED";
 		}
-		int randIndexAdj1 = (int) (Math.random() * adjectives.length);
-		int randIndexAdj2 = (int) (Math.random() * adjectives.length);
-		int randIndexNoun = (int) (Math.random() * nouns.length);
+
+		int randIndexAdj1 = (int) (Math.random() * adjectives.length) + 1;
+		int randIndexAdj2 = (int) (Math.random() * adjectives.length) + 1;
+		int randIndexNoun = (int) (Math.random() * nouns.length) + 1;
 
 		String adj1 = capitalizeFirst(adjectives[randIndexAdj1]);
 		String adj2 = capitalizeFirst(adjectives[randIndexAdj2]);
@@ -143,7 +144,7 @@ public class BandNameGenerator {
 
 	public static void main(String[] args) {
 		// create a BandNameGenerator and initialize it
-		BandNameGenerator gen = new BandNameGenerator("adjectives.txt", "nouns.txt");
+		BandNameGenerator gen = new BandNameGenerator("../../../../adjectives.txt", "../../../../nouns.txt");
 		gen.loadAdjectives();
 		gen.loadNouns();
 

@@ -1,4 +1,4 @@
-
+package ece325.labs.lab1;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -42,7 +42,7 @@ public class BandNameGenerator {
 		if (nouns.length > 0) {
 			nounsLoaded = true;
 		} else {
-			System.err.println("Error loading adjectives from: " + nounsFile);
+			System.err.println("Error loading nouns from: " + nounsFile);
 		}
 	}
 

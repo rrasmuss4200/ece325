@@ -144,7 +144,7 @@ public class BandNameGenerator {
 
 	public static void main(String[] args) {
 		// create a BandNameGenerator and initialize it
-		BandNameGenerator gen = new BandNameGenerator("../../../../../adjectives.txt", "../../../../../nouns.txt");
+		BandNameGenerator gen = new BandNameGenerator("../../../../adjectives.txt", "../../../../nouns.txt");
 		gen.loadAdjectives();
 		gen.loadNouns();
 

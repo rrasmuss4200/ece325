@@ -54,7 +54,8 @@ ArrayList<RaceCar> racecars = new ArrayList<RaceCar>();
 Car car = new Car();
 RaceCar rc1 = new RaceCar();
 Car rc2 = new RaceCar(); // declare variable as Car and make a RaceCar object;
-RaceCar rc3 = (RaceCar) new Car(); // compile but shouldn't do this; crashes run-time error
+RaceCar rc3 = (RaceCar) new Car(); // compile but shouldn't do this; crashes at run-time
+// makes car into racecar - narrowing cast
 
 cars.add(car); // yes
 cars.add(rc1); // yes, racecar treated as Car; gets casted as Car; narrow cast

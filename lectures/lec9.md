@@ -141,3 +141,11 @@ Vehicle and Car both are abstract classes and contain abstract method showDetail
 Vehicle v1 = new RaceCar();
 Vehicle v2 = new Vehicle(); // can't do this
 ```
+
+**An abstract method** cannot be accessed outside the class
+
+Ex: if getMaxSpeed() is only in Car and not in RaceCar, it will access the Car's MaxSpeed and not the RaceCar's MaxSpeed. RaceCar must override getMaxSpeed().
+
+A subclass cannot extend more than one class at a time. CUZ if both parent classes have the same method, how would the sublcass know which one to use.
+
+If method was *abstract*, then we don't have this problem anymore.

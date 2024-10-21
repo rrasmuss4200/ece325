@@ -98,3 +98,152 @@ This is dangerous because since the compiler makes sure we put a String in box2,
 If getting from raw box, we have to cast it which can be dangerous
 
 **Do not mix generics and raw types**
+
+# Part 2
+
+Methods can be generic too
+
+*Reminder* use **static** methods when you don't need to access the fields of the class
+```java
+public class Util {
+    public static <K, V> boolean compare(Pair<K,V> p1, Pair<K,V> p2) {
+        return p1.getKey().equals(p2.getKey()) &&
+        p1.getValue().equals(p2.getValue());
+    }
+}
+```
+
+**If p1 and p2 are not the same type, it will throw an error and not compile**
+
+Can call with ```Util.<String, Integer>compare(...)``` or ```Util.compare(...)``` (type inference)
+
+## Inheritance with generics
+
+- T could mean any object
+- Sometimes, we want to allow only specific types
+  - Like a Number(Integer, Double,...)
+
+- Type params can be **bounded** when we want to accept only certain classes
+
+```public class Box<N extends Number>``` ( N *is a* number, rest of the class stays the same)
+
+Box<Number> boxNum = new Box<>();
+
+Box<Integer> boxInt = new Box<>();
+
+Cannot do this!:
+
+boxNum = boxInt;
+
+A Box<Integer> is not a special type of a Box<Number>
+
+If Java allowed this, and if Box<Number> held a Double, and if we set boxNum = boxInt, if boxInt took the Double out of the box, it wouldn't know what to do with it since a Double is not treated the same as an Integer.
+
+### Inheritance can work with generics
+
+Only if all types are the same.
+
+Box<T> <- SpecialBox<T> <- VerSpecialBox<T>
+
+**If we want to implement less restrictive rules for generics:**
+
+Let's say we have
+
+```java
+public static void printAll(List<Number> list) {
+    for(Number n : list) {
+        System.out.println(n);
+    }
+}
+
+printAll(new ArrayList<Number>()); // yes
+printAll(new ArrayList<Integer>()); // no
+```
+
+We can do ArrayList<Number> since it can hold Number, Integer, Double but not Integer cuz of the same Box<> example as above
+
+What is a better, less restrictive implementation, specify List takes type that extends Number
+
+```java
+public static <N extends Number> void printAll(List<N> list) {
+    for(N n : list) {
+        System.out.println(n);
+    }
+}
+
+printAll(new ArrayList<Number>()); // yes
+printAll(new ArrayList<Integer>()); // yes!
+```
+
+### Wildcard
+
+We don't care what type N is, as long as it extends number
+
+```java
+public static void printAll(List<? extends Number> list) {
+    for(Number n : list) {
+        System.out.println(n);
+    }
+}
+```
+
+If we had printAll take List<Object>, it would be more restrictive, as the list would need to be made of types that extend Object.
+
+Here we don't don't care what the type is, we are just printing it.
+
+```java
+public static void printAll(List<?> list) {
+    for(Object n : list) {
+        System.out.println(n);
+    }
+}
+```
+
+But here, we want to make sure the type we are adding to the list is of the appropriate type
+
+```java
+public static <T> void addToList(List<T> list, T t) {
+    list.add(t);
+}
+```
+
+**Lower and Upper bounded**
+<? extends T>
+
+- means any type that is T or extends/implements T (Number or Integer, goes down)
+
+<? super T>
+
+- means any type that is T or a superclass of T (Number or Object, goes up)
+
+## PECS: Producer Extends, Consumer Super
+
+- use **extends** when you only get values out of a data structure
+- use **super** when you only put values in a data structure
+
+**Producing**
+
+- objects are either subclass or of class Car (we just care that it has a MaxSpeed to get)
+
+```java
+public static void showMaxSpeeds(List<? extends Car> list) {
+    for(Car c : list)
+        System.out.println(c.getMaxSpeed()); // uses the deepest implementation of getMaxSpeed() :)
+}
+```
+
+**Consuming**
+
+- We can do this as long as the List can store objects of type Car or a superclass of Car
+
+```java
+public static void storeCar(List<? super Car> list, Car c) {
+    list.add(c);
+}
+```
+
+**Why not <T super Car>?**
+
+Cuz we know T is superclass of Car, but not much else. T may not know the same methods as Car
+
+so we can **only use upperbound for wildcards**.

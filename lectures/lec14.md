@@ -208,11 +208,12 @@ public static <T> void addToList(List<T> list, T t) {
 ```
 
 **Lower and Upper bounded**
-<? extends T>
+
+```<? extends T>```
 
 - means any type that is T or extends/implements T (Number or Integer, goes down)
 
-<? super T>
+```<? super T>```
 
 - means any type that is T or a superclass of T (Number or Object, goes up)
 
